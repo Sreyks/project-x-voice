@@ -1,0 +1,23 @@
+name: x-light
+
+services:
+  x-app-light:
+    build:
+      context: .
+      dockerfile: light/Dockerfile
+    container_name: x-app-light
+    ports:
+      - "5451:5000"
+    volumes:
+      - whisper-light-cache:/root/.cache/huggingface
+    environment:
+      - PYTHONUNBUFFERED=1
+      - WHISPER_MODEL=small
+      - HF_HUB_DISABLE_XET=1
+      - HF_HUB_ETAG_TIMEOUT=30
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-3.5-flash}
+    restart: unless-stopped
+
+volumes:
+  whisper-light-cache:

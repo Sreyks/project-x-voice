@@ -1,0 +1,26 @@
+name: x-heavy
+
+services:
+  x-app-heavy:
+    build:
+      context: .
+      dockerfile: heavy/Dockerfile
+    container_name: x-app-heavy
+    ports:
+      - "5451:5000"
+    volumes:
+      - qwen-cache:/root/.cache/huggingface
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HF_HUB_DISABLE_XET=1
+      - HF_HUB_ETAG_TIMEOUT=30
+      - ASR_MODEL=Qwen/Qwen3-ASR-0.6B
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-3.5-flash}
+    gpus: all
+    restart: unless-stopped
+
+volumes:
+  qwen-cache:
+    external: true
+    name: x_qwen-cache

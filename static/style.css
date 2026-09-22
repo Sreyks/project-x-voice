@@ -1,0 +1,339 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #0a0a0a;
+    color: #e6e6e6;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+::selection {
+    background: #2a4570;
+    color: #fff;
+}
+
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid #1c1c1c;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 22px;
+    letter-spacing: 6px;
+    color: #888;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff5c5c, #5a86c9);
+}
+
+.clear-btn {
+    background: none;
+    border: 1px solid #2a2a2a;
+    color: #777;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.clear-btn:hover {
+    color: #ccc;
+    border-color: #444;
+}
+
+.chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #262626 transparent;
+}
+
+.chat::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat::-webkit-scrollbar-thumb {
+    background: #262626;
+    border-radius: 3px;
+}
+
+.chat::-webkit-scrollbar-thumb:hover {
+    background: #3a3a3a;
+}
+
+.empty-hint {
+    margin: auto;
+    color: #555;
+    font-size: 14px;
+    text-align: center;
+    max-width: 260px;
+}
+
+@keyframes msg-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.msg {
+    align-self: flex-start;
+    max-width: 78%;
+    background: #1a1a1a;
+    border: 1px solid #262626;
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+    padding: 10px 14px;
+    font-size: 15px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s ease;
+    animation: msg-in 0.2s ease-out;
+}
+
+.msg:hover {
+    border-color: #3a3a3a;
+}
+
+.msg .msg-time {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: #666;
+}
+
+.msg.copied::after {
+    content: "Скопировано";
+    position: absolute;
+    top: -22px;
+    left: 10px;
+    font-size: 11px;
+    color: #6ee787;
+    background: #0a0a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.msg.ai {
+    align-self: flex-end;
+    background: #101a2a;
+    border-color: #1c2f4a;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 4px;
+}
+
+.msg.ai:hover {
+    border-color: #2a4570;
+}
+
+.msg.typing {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 14px;
+    cursor: default;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #5a86c9;
+    animation: typing-bounce 1s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.status {
+    min-height: 16px;
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    padding: 0 12px;
+    margin: 0;
+}
+
+.input-bar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    border-top: 1px solid #1c1c1c;
+}
+
+.icon-btn {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #161616;
+    border: 1px solid #262626;
+    color: #999;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.icon-btn:hover {
+    color: #ccc;
+    border-color: #3a3a3a;
+}
+
+.icon-btn:active {
+    transform: scale(0.92);
+}
+
+.icon-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.input-slot {
+    flex: 1;
+    position: relative;
+    min-width: 0;
+}
+
+.text-input {
+    width: 100%;
+    background: #131313;
+    border: 1px solid #262626;
+    border-radius: 20px;
+    color: #e6e6e6;
+    padding: 10px 16px;
+    font-size: 15px;
+    outline: none;
+}
+
+.text-input:focus {
+    border-color: #444;
+}
+
+.recording-indicator {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: #1a1010;
+    border: 1px solid #3a1010;
+    border-radius: 20px;
+    padding: 10px 16px;
+    color: #ff8080;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ff5c5c;
+    animation: blink 1.1s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+}
+
+.mic-btn {
+    background: #161616;
+}
+
+.mic-btn.analyzing {
+    animation: pulse-bg 1s ease-in-out infinite;
+}
+
+@keyframes pulse-bg {
+    0%, 100% { background: #161616; }
+    50% { background: #2a2210; }
+}
+
+.send-btn {
+    display: none;
+    color: #6ee787;
+    border-color: #234a2c;
+}
+
+.send-btn:hover {
+    color: #8ef7a3;
+    border-color: #2f6a3b;
+}
+
+.rec-stop-btn, .rec-send-btn {
+    display: none;
+}
+
+.rec-stop-btn {
+    color: #ff8080;
+    border-color: #3a1010;
+}
+
+.rec-send-btn {
+    color: #6ee787;
+    border-color: #234a2c;
+}
+
+.input-bar.recording .text-input {
+    display: none;
+}
+
+.input-bar.recording .recording-indicator {
+    display: flex;
+}
+
+.input-bar.recording .mic-btn {
+    display: none;
+}
+
+.input-bar.recording .rec-stop-btn,
+.input-bar.recording .rec-send-btn {
+    display: flex;
+}
+
+.input-bar.recording .send-btn {
+    display: none;
+}
+
+.input-bar.has-text .send-btn {
+    display: flex;
+}
+
+.input-bar.recording.has-text .send-btn {
+    display: none;
+}
